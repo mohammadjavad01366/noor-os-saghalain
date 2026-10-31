@@ -1,1 +1,309 @@
 @import "tailwindcss";
+
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("/fonts/vazirmatn.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Amiri";
+  src: url("/fonts/amiri-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Vazirmatn", ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+  --font-quran: "Amiri", "Traditional Arabic", "Times New Roman", serif;
+
+  --color-teal-950: #04292e;
+  --color-teal-900: #063c43;
+  --color-teal-800: #075159;
+  --color-turquoise: #087e83;
+  --color-midnight: #102a3a;
+  --color-gold: #c59a5a;
+  --color-gold-300: #e2c79b;
+  --color-ivory: #f3ebdd;
+  --color-ivory-200: #e9dcc7;
+  --color-terracotta: #a84f32;
+  --color-charcoal: #171717;
+
+  --ease-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-ivory);
+    color: #162023;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  ::selection {
+    background-color: #c59a5a66;
+    color: #063c43;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-turquoise);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  .shell {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .shell {
+      padding-inline: 2rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .shell {
+      padding-inline: 3rem;
+    }
+  }
+
+  /* Subtle gold geometric lattice, used on solid sections */
+  .pattern-star {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3E%3Cg fill='none' stroke='%23c59a5a' stroke-width='0.75'%3E%3Cpath d='M48 0 96 48 48 96 0 48Z'/%3E%3Cpath d='M14 14H82V82H14Z'/%3E%3Ccircle cx='48' cy='48' r='14'/%3E%3Cpath d='M48 26v44M26 48h44'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 96px 96px;
+    opacity: 0.16;
+  }
+
+  .pattern-diagonal {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgba(197, 154, 90, 0.16) 0 1px,
+      transparent 1px 14px
+    );
+  }
+
+  .gold-rule {
+    height: 1px;
+    background-image: linear-gradient(
+      to left,
+      transparent,
+      rgba(197, 154, 90, 0.75) 35%,
+      rgba(197, 154, 90, 0.75) 65%,
+      transparent
+    );
+  }
+
+  .hairline {
+    border-color: rgba(197, 154, 90, 0.28);
+  }
+
+  .text-shadow-soft {
+    text-shadow: 0 2px 26px rgba(4, 25, 29, 0.55);
+  }
+
+  .arch-frame {
+    border-radius: 999px 999px 18px 18px;
+  }
+
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .field {
+    width: 100%;
+    border-radius: 0.75rem;
+    border: 1px solid rgba(6, 60, 67, 0.18);
+    background-color: #fffdf8;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+    color: #162023;
+    transition: border-color 0.25s var(--ease-soft), box-shadow 0.25s var(--ease-soft);
+  }
+
+  .field::placeholder {
+    color: rgba(22, 32, 35, 0.42);
+  }
+
+  .field:focus {
+    outline: none;
+    border-color: var(--color-turquoise);
+    box-shadow: 0 0 0 4px rgba(8, 126, 131, 0.13);
+  }
+
+  .field-error {
+    border-color: var(--color-terracotta);
+  }
+
+  .admin-card {
+    border-radius: 1rem;
+    border: 1px solid rgba(6, 60, 67, 0.12);
+    background-color: #fffdf8;
+    padding: 1.25rem;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
+
+/* ---------- reveal on scroll ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.9s var(--ease-soft),
+    transform 0.9s var(--ease-soft);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes noor-scroll {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+@keyframes noor-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-14px) rotate(6deg);
+  }
+}
+
+@keyframes noor-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes noor-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-scroll-line {
+  animation: noor-scroll 2.6s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: noor-float 18s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: noor-spin 90s linear infinite;
+}
+
+.animate-fade-in {
+  animation: noor-fade-in 0.7s var(--ease-soft) both;
+}
+
+/* ---------- native form controls ---------- */
+select.field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23063c43' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 1rem center;
+  padding-left: 2.5rem;
+}
+
+/* ---------- lightbox ---------- */
+body.no-scroll {
+  overflow: hidden;
+}
