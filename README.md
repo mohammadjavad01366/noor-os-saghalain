@@ -42,6 +42,48 @@ pnpm lint
 
 یادداشت‌های راه‌اندازی و نکات غیرمشخص در `AGENTS.md` آمده است.
 
+## خروجی آماده انتشار (بدون Base44)
+
+دو بسته مستقل از Base44 ساخته می‌شود؛ هیچ حساب کاربری یا سرویس ابری لازم نیست و همه دارایی‌ها
+(فونت، تصویر، ویدئوی بخش نخست) داخل خود بسته قرار می‌گیرند:
+
+```bash
+# داخل کانتینر توسعه
+docker compose -f docker-compose.base44.yml exec -T web pnpm export:build
+# ساخت فایل‌های zip
+bash scripts/export-zip.sh
+```
+
+| بسته | محل | کاربرد |
+| --- | --- | --- |
+| `export/noor-al-thaqalain-static.zip` | `dist` استاتیک + `.htaccess` + `404.html` + `README.txt` | هر هاست ساده (cPanel/Apache/Nginx/Netlify) |
+| `export/noor-al-thaqalain-theme.zip` | پوسته واقعی وردپرس (`style.css`، `functions.php`، `index.php`، `header.php`، `footer.php`، `assets/`) | نصب از «پوسته‌ها → افزودن → بارگذاری پوسته» |
+
+- **استاتیک:** فایل‌ها را در `public_html` آپلود کنید؛ `.htaccess` مسیرهای تمیز (`/about`، `/news/...`)
+  را به `index.html` هدایت می‌کند. برای زیرشاخه، با `--base=/noor/` دوباره بسازید.
+- **وردپرس:** قالب همان بسته React را از پوشه `assets` بارگذاری می‌کند و به Node.js روی هاست نیاز
+  ندارد. مسیرها به‌شکل hash هستند (`/#/quran`) تا بدون تنظیم rewrite کار کند.
+- هر دو بسته با `vite build` واقعی ساخته می‌شوند (minify + هش فایل‌ها)؛ سورس دست‌نخورده در
+  پوشه‌های `dist-static` و `dist-theme` نیز باقی می‌ماند.
+
+### ویدئوی بخش نخست
+
+`public/videos/hero-scrub.mp4` نسخه‌ای است که هر فریم آن keyframe است تا پیمایش با اسکرول بدون پرش
+انجام شود. اگر آن را عوض کردید، با همان تنظیمات کدگذاری کنید:
+
+```bash
+ffmpeg -i input.mp4 -an -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p \
+  -g 1 -sc_threshold 0 -movflags +faststart public/videos/hero-scrub.mp4
+```
+
+## ساختار طراحی
+
+- پالت و تایپوگرافی در `src/styles/tailwind.css` (`@theme`) تعریف شده‌اند: teal تیره، فیروزه‌ای،
+  عاج گرم و طلایی.
+- عمق سه‌بعدی با کلاس‌های `.stage`، `.depth-card`، `.depth-plate` و لایه‌های `Parallax` ساخته می‌شود؛
+  همه با transform و بدون کتابخانه ۳بعدی.
+- همه لایه‌های اسکرول از یک listener مشترک (`src/lib/scrollEngine.ts`) تغذیه می‌شوند.
+
 ---
 
 # React Template（⚡️）

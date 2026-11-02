@@ -307,3 +307,104 @@ select.field {
 body.no-scroll {
   overflow: hidden;
 }
+
+/* ---------- 3D depth system ----------
+   Lightweight CSS-only depth: real perspective on the container, translateZ on
+   the layers, soft stacked shadows for grounding. No 3D library, no filter
+   blur on moving layers — only transform + opacity animate on scroll, so the
+   compositor does the work and mobile stays smooth. */
+.stage {
+  perspective: 1600px;
+  perspective-origin: 50% 35%;
+}
+
+.stage-near {
+  perspective: 900px;
+}
+
+.layer {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.depth-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transition:
+    transform 0.6s var(--ease-soft),
+    box-shadow 0.6s var(--ease-soft),
+    border-color 0.6s var(--ease-soft),
+    background-color 0.6s var(--ease-soft);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.55),
+    0 20px 44px -34px rgba(4, 41, 46, 0.65),
+    0 2px 6px -4px rgba(4, 41, 46, 0.25);
+}
+
+.depth-card:hover,
+.depth-card:focus-within {
+  transform: translate3d(0, -6px, 22px) rotateX(1.4deg);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 40px 70px -38px rgba(4, 41, 46, 0.6),
+    0 4px 12px -6px rgba(4, 41, 46, 0.22);
+}
+
+.depth-card-dark {
+  box-shadow:
+    inset 0 1px 0 rgba(243, 235, 221, 0.08),
+    0 24px 48px -34px rgba(0, 0, 0, 0.75);
+}
+
+.depth-card-dark:hover,
+.depth-card-dark:focus-within {
+  transform: translate3d(0, -6px, 22px) rotateX(1.4deg);
+  box-shadow:
+    inset 0 1px 0 rgba(243, 235, 221, 0.14),
+    0 44px 80px -40px rgba(0, 0, 0, 0.8);
+}
+
+/* A raised inner plate, used for the small floating info blocks */
+.depth-plate {
+  transform: translateZ(34px);
+  box-shadow:
+    0 30px 60px -34px rgba(4, 41, 46, 0.7),
+    0 2px 8px -6px rgba(4, 41, 46, 0.3);
+}
+
+/* Decorative back layer that sits behind a card and drifts on scroll */
+.depth-backdrop {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  transform: translateZ(-60px) scale(1.04);
+  opacity: 0.5;
+}
+
+.arch-crown {
+  border-start-start-radius: 999px;
+  border-start-end-radius: 999px;
+  border-end-start-radius: 1rem;
+  border-end-end-radius: 1rem;
+}
+
+/* Scroll-driven layer: JS only writes --parallax-y, the compositor moves it */
+[data-parallax] {
+  transform: translate3d(0, var(--parallax-y, 0px), 0);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .depth-card:hover,
+  .depth-card:focus-within,
+  .depth-card-dark:hover,
+  .depth-card-dark:focus-within {
+    transform: none;
+  }
+
+  [data-parallax] {
+    transform: none;
+    will-change: auto;
+  }
+}

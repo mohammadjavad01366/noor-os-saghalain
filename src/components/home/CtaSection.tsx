@@ -3,6 +3,7 @@ import { useContent } from "@/content/store";
 import { actionClass } from "@/components/ui/buttonStyles";
 import { Icon } from "@/components/ui/Icon";
 import { OrnamentDivider } from "@/components/ui/Ornament";
+import { Parallax } from "@/components/ui/Parallax";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function CtaSection() {
@@ -10,13 +11,17 @@ export function CtaSection() {
 
   return (
     <section className="relative isolate overflow-hidden bg-teal-950">
-      <img
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 h-full w-full object-cover object-[50%_45%]"
-        loading="lazy"
-        src="/images/hero-architecture.jpg"
-      />
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <Parallax className="absolute -inset-y-[12%] inset-x-0" limit={46} speed={0.07}>
+          <img
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover object-[50%_45%]"
+            loading="lazy"
+            src="/images/hero-architecture.jpg"
+          />
+        </Parallax>
+      </div>
       <div className="absolute inset-0 -z-10 bg-teal-900/82" />
       <div className="absolute inset-0 -z-10 bg-gradient-to-l from-teal-950 via-teal-900/45 to-turquoise/35" />
       <div aria-hidden="true" className="pattern-star absolute inset-0 -z-10 opacity-[0.12]" />

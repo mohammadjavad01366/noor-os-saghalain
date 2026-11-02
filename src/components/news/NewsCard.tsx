@@ -6,7 +6,7 @@ import { Icon } from "@/components/ui/Icon";
 export function NewsCard({ article, featured = false }: { article: Article; featured?: boolean }) {
   return (
     <article
-      className={`group flex h-full flex-col overflow-hidden rounded-2xl border border-teal-900/10 bg-white/45 transition-all duration-500 hover:-translate-y-1 hover:border-gold/40 hover:bg-white/75 hover:shadow-[0_30px_60px_-45px_rgba(6,60,67,0.8)] ${
+      className={`depth-card group flex h-full flex-col overflow-hidden rounded-2xl border border-teal-900/10 bg-white/45 hover:border-gold/40 hover:bg-white/75 ${
         featured ? "sm:flex-row" : ""
       }`}
     >

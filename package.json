@@ -6,6 +6,7 @@
     "build": "turbo vite.build",
     "check-types": "tsgo --noEmit",
     "dev": "vite --host",
+    "export:build": "node scripts/build-export.mjs",
     "lint": "pnpm biome check --no-errors-on-unmatched --files-ignore-unknown=true",
     "prepare": "is-ci || lefthook install",
     "vite.build": "vite build"

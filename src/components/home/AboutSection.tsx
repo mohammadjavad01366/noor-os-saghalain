@@ -3,6 +3,7 @@ import { useContent } from "@/content/store";
 import { actionClass } from "@/components/ui/buttonStyles";
 import { Icon } from "@/components/ui/Icon";
 import { CornerFrame, StarGlyph } from "@/components/ui/Ornament";
+import { Parallax } from "@/components/ui/Parallax";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 
@@ -19,6 +20,10 @@ export function AboutSection() {
   return (
     <section className="relative overflow-hidden bg-ivory py-20 lg:py-28" id="about">
       <div aria-hidden="true" className="pattern-star absolute inset-0 opacity-[0.05]" />
+      <Parallax className="pointer-events-none absolute -right-32 top-24 hidden lg:block" speed={0.07}>
+        <StarGlyph className="h-80 w-80 text-gold/10" />
+      </Parallax>
+
       <div className="relative shell">
         <div className="grid items-start gap-14 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
@@ -49,41 +54,52 @@ export function AboutSection() {
             </div>
 
             <Reveal delay={120}>
-              <Link className={`${actionClass("outlineDark", "md")} mt-10`} to="/about">
-                بیشتر درباره مجموعه
-                <Icon name="arrow" size={16} />
-              </Link>
+              <div className="mt-10 flex flex-wrap items-center gap-3">
+                <Link className={actionClass("outlineDark", "md")} to="/about">
+                  بیشتر درباره مجموعه
+                  <Icon name="arrow" size={16} />
+                </Link>
+                <Link
+                  className="inline-flex items-center gap-2 text-[13.5px] font-medium text-teal-800 transition-colors hover:text-gold"
+                  to="/goals"
+                >
+                  اهداف و رسالت
+                  <Icon name="arrow" size={15} />
+                </Link>
+              </div>
             </Reveal>
           </div>
 
           <div className="lg:col-span-5">
             <Reveal delay={80}>
-              <div className="relative mx-auto w-full max-w-[430px]">
+              <div className="stage relative mx-auto w-full max-w-[430px]">
                 <div aria-hidden="true" className="absolute -inset-3 rounded-t-full border border-gold/25" />
-                <div className="arch-frame relative overflow-hidden border border-gold/40 bg-teal-950 p-[6px]">
-                  <div className="arch-frame h-[440px] overflow-hidden sm:h-[520px]">
-                    <img
-                      alt="نمای رواق‌های کاشی‌کاری‌شده مجموعه"
-                      className="h-full w-full object-cover object-[50%_42%]"
-                      loading="lazy"
-                      src="/images/hero-architecture.jpg"
-                    />
-                    <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-teal-950/70 via-transparent to-transparent" />
+                <Parallax limit={44} speed={0.06}>
+                  <div className="arch-frame layer relative overflow-hidden border border-gold/40 bg-teal-950 p-[6px]">
+                    <div className="arch-frame h-[440px] overflow-hidden sm:h-[520px]">
+                      <img
+                        alt="نمای رواق‌های کاشی‌کاری‌شده مجموعه"
+                        className="h-full w-full object-cover object-[50%_42%]"
+                        loading="lazy"
+                        src="/images/hero-architecture.jpg"
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-teal-950/70 via-transparent to-transparent" />
+                    </div>
                   </div>
-                </div>
 
-                <div className="relative -mt-14 mr-4 w-[86%] max-w-[300px] rounded-2xl border border-gold/30 bg-ivory/95 p-5 shadow-[0_30px_60px_-40px_rgba(4,41,46,0.9)] backdrop-blur">
-                  <CornerFrame tone="dark" />
-                  <p className="flex items-center gap-2 text-[10px] tracking-[0.24em] text-teal-800">
-                    <StarGlyph className="h-2.5 w-2.5 text-gold" />
-                    دو یادگار گران‌بها
-                  </p>
-                  <p className="mt-3 text-[14px] font-semibold text-teal-900">قرآن کریم</p>
-                  <div className="my-2.5 h-px w-full bg-teal-900/10" />
-                  <p className="text-[14px] font-semibold text-teal-900">
-                    اهل‌بیت علیهم‌السلام
-                  </p>
-                </div>
+                  <div className="depth-plate relative -mt-14 mr-4 w-[86%] max-w-[300px] rounded-2xl border border-gold/30 bg-ivory/95 p-5 backdrop-blur">
+                    <CornerFrame tone="dark" />
+                    <p className="flex items-center gap-2 text-[10px] tracking-[0.24em] text-teal-800">
+                      <StarGlyph className="h-2.5 w-2.5 text-gold" />
+                      دو یادگار گران‌بها
+                    </p>
+                    <p className="mt-3 text-[14px] font-semibold text-teal-900">قرآن کریم</p>
+                    <div className="my-2.5 h-px w-full bg-teal-900/10" />
+                    <p className="text-[14px] font-semibold text-teal-900">
+                      اهل‌بیت علیهم‌السلام
+                    </p>
+                  </div>
+                </Parallax>
               </div>
             </Reveal>
           </div>

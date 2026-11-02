@@ -133,3 +133,8 @@ dist
 .wireit
 
 .turbo
+
+# Static / WordPress export output (the zips in export/ are what gets shipped)
+export/*/
+dist-static/
+dist-theme/

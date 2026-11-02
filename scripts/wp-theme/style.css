@@ -1,0 +1,36 @@
+/*
+Theme Name: Noor Al-Thaqalain
+Theme URI: https://example.com/noor-al-thaqalain
+Author: مجموعه قرآنی و تربیتی امیرالمؤمنین نورالثقلین
+Description: قالب فارسی و راست‌به‌چپ برای وب‌سایت مجموعه. رابط کاربری از پیش ساخته‌شده (React) در این قالب بارگذاری می‌شود؛ فایل‌های ساخته‌شده در پوشه assets قرار دارند.
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.7
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: noor-al-thaqalain
+Tags: rtl-language-support, custom-menu, full-width-template
+*/
+
+/* WordPress needs this file for the theme header above. The application's
+   compiled CSS is enqueued from functions.php; only shell defaults live here. */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f3ebdd;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.screen-reader-text {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}

@@ -58,7 +58,7 @@ export default function EducationPage() {
             <div className="grid gap-4 sm:grid-cols-2">
               {tracks.map((track, index) => (
                 <Reveal delay={(index % 2) * 80} key={track.id}>
-                  <div className="group relative h-full overflow-hidden rounded-2xl border border-teal-900/10 bg-white/50 p-6 transition-all duration-500 hover:-translate-y-1 hover:border-gold/40 hover:bg-white/80">
+                  <div className="depth-card group relative h-full overflow-hidden rounded-2xl border border-teal-900/10 bg-white/50 p-6 hover:border-gold/40 hover:bg-white/80">
                     <span
                       aria-hidden="true"
                       className="absolute -left-4 -top-6 text-[64px] font-bold leading-none text-teal-900/[0.045]"

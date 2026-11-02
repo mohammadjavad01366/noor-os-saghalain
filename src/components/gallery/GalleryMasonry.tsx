@@ -15,7 +15,7 @@ export function GalleryMasonry({ items, onOpen }: GalleryMasonryProps) {
       {items.map((item, index) => (
         <button
           aria-label={`بزرگ‌نمایی: ${item.caption}`}
-          className="group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-2xl border border-ivory/10 text-right"
+          className="depth-card depth-card-dark group relative mb-4 block w-full break-inside-avoid overflow-hidden rounded-2xl border border-ivory/10 text-right"
           key={item.id}
           onClick={() => onOpen(index)}
           type="button"

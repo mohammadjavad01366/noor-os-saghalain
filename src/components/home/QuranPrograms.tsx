@@ -42,7 +42,7 @@ export function QuranPrograms() {
           {content.programs.map((program, index) => (
             <Reveal delay={(index % 3) * 80} key={program.id}>
               <Link
-                className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-ivory/12 bg-ivory/[0.035] p-6 transition-all duration-500 hover:-translate-y-1 hover:border-gold/40 hover:bg-ivory/[0.07]"
+                className="depth-card depth-card-dark group relative flex h-full flex-col overflow-hidden rounded-2xl border border-ivory/12 bg-ivory/[0.035] p-6 hover:border-gold/40 hover:bg-ivory/[0.07]"
                 to="/quran"
               >
                 <span

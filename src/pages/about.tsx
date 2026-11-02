@@ -48,7 +48,7 @@ export default function AboutPage() {
               <div className="mt-10 space-y-6">
                 {pillars.map((pillar, index) => (
                   <Reveal delay={index * 80} key={pillar.title}>
-                    <div className="relative rounded-2xl border border-teal-900/10 bg-white/50 p-6">
+                    <div className="depth-card relative rounded-2xl border border-teal-900/10 bg-white/50 p-6">
                       <div className="flex items-center gap-3">
                         <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/40 text-[11.5px] text-gold">
                           {pillar.number}
@@ -105,7 +105,7 @@ export default function AboutPage() {
             <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
               {about.values.map((value, index) => (
                 <Reveal delay={index * 70} key={value.id}>
-                  <div className="group h-full rounded-2xl border border-teal-900/10 bg-white/45 p-6 transition-colors duration-500 hover:border-gold/40 hover:bg-white/75">
+                  <div className="depth-card group h-full rounded-2xl border border-teal-900/10 bg-white/45 p-6 hover:border-gold/40 hover:bg-white/75">
                     <div className="flex items-center justify-between">
                       <StarGlyph className="h-4 w-4 text-gold" />
                       <span className="text-[10px] tracking-[0.2em] text-teal-900/25">

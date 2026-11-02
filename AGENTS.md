@@ -49,6 +49,44 @@ docker compose -f docker-compose.base44.yml up -d --build
 - The source clip is 496x864, so a wide desktop viewport upscales it when it covers the screen. Ask
   for a 1080x1920 (or similar) export before expecting crisp desktop detail.
 
+## Design system (3D, RTL, mobile-first)
+
+- Tokens (palette, fonts, `--ease-soft`) live in the `@theme` block of
+  `src/styles/tailwind.css`. Persian type is Vazirmatn (UI) + Amiri (Qur'anic text), self-hosted in
+  `public/fonts`; the document is `lang="fa" dir="rtl"` from `index.html`.
+- Depth is CSS-only: `.stage` (perspective), `.depth-card` / `.depth-card-dark` (hover lift +
+  layered shadows), `.depth-plate`, plus `<Parallax>` for scroll-linked layers. `.depth-card` carries
+  no `border-radius` on purpose — give each card its own Tailwind rounding.
+- **One scroll listener for the whole site**: `src/lib/scrollEngine.ts` exposes
+  `subscribeScroll(fn)` and calls every subscriber once per `requestAnimationFrame`. Add new
+  scroll-linked visuals through it (or `<Parallax>`), never with their own `scroll` listener, and
+  never by putting scroll progress into React state.
+- All motion is guarded by `prefers-reduced-motion` (CSS media query + `prefersReducedMotion()`),
+  which the stylesheet already neutralises globally.
+
+## Routes and navigation
+
+- Site map lives in `src/content/nav.ts` (`label` for menus/footer, `short` for the desktop bar —
+  nine destinations only fit beside the brand with the short labels). Add a page to `src/routes.tsx`
+  and to that list together.
+- Pages: `/` · `/about` · `/goals` (اهداف و رسالت) · `/quran` · `/education` · `/activities` (+
+  `/:slug`) · `/news` (+ `/:slug`) · `/gallery` · `/contact`, plus `/admin`.
+
+## Deployable exports (no Base44 runtime)
+
+- `pnpm export:build` (`scripts/build-export.mjs`) produces `export/noor-al-thaqalain-static/` and
+  `export/noor-al-thaqalain-theme/`; `bash scripts/export-zip.sh` zips them. The `.zip` files are the
+  shipped artifacts and are committed; the unpacked folders are gitignored.
+- Two builds run, and they differ on purpose: the static one uses `--base=/` with browser URLs plus
+  an `.htaccess` SPA fallback; the theme one uses `--base=/wp-content/themes/noor-al-thaqalain/assets/`
+  and `VITE_ROUTER_MODE=hash`, because WordPress owns server routing and cannot install rewrites.
+- Vite only rewrites the URLs it emits. Public-dir references in the app (`/images`, `/videos`,
+  `/fonts`) are rewritten to the theme base by the build script — if you add a new public asset
+  folder, extend the regex there or it will 404 inside the theme.
+- The theme's `functions.php` reads `assets/.vite/manifest.json` (so the build MUST keep
+  `--manifest`) and prints the entry as `<script type="module">` in the footer. PHP files are linted
+  with `php -l` in a `php:8.2-cli` container.
+
 ## Checks
 
 Run inside the container (the host has no Node toolchain):

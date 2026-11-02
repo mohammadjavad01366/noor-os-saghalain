@@ -49,7 +49,7 @@ export default function QuranPage() {
           <div className="mt-14 grid gap-5 md:grid-cols-2">
             {programs.map((program, index) => (
               <Reveal delay={(index % 2) * 80} key={program.id}>
-                <article className="group flex h-full flex-col rounded-2xl border border-teal-900/10 bg-white/50 p-6 transition-all duration-500 hover:-translate-y-1 hover:border-gold/40 hover:bg-white/80 sm:p-7">
+                <article className="depth-card group flex h-full flex-col rounded-2xl border border-teal-900/10 bg-white/50 p-6 hover:border-gold/40 hover:bg-white/80 sm:p-7">
                   <div className="flex items-start justify-between gap-4">
                     <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-gold/30 bg-gold/5 text-teal-800 transition-colors group-hover:text-gold">
                       <Icon name={program.icon} size={22} strokeWidth={1.3} />

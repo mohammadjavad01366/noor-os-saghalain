@@ -60,7 +60,7 @@ export default function ActivitiesPage() {
             {filtered.map((activity, index) => (
               <Reveal delay={(index % 3) * 70} key={activity.id}>
                 <Link
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-teal-900/10 bg-white/50 transition-all duration-500 hover:-translate-y-1 hover:border-gold/40 hover:bg-white/80 hover:shadow-[0_30px_60px_-45px_rgba(6,60,67,0.75)]"
+                  className="depth-card group flex h-full flex-col overflow-hidden rounded-2xl border border-teal-900/10 bg-white/50 hover:border-gold/40 hover:bg-white/80"
                   to={`/activities/${activity.slug}`}
                 >
                   <div className="relative h-52 overflow-hidden">

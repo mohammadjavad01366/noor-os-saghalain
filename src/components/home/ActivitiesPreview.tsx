@@ -42,7 +42,7 @@ export function ActivitiesPreview() {
         <div className="mt-12 grid gap-6 lg:grid-cols-2">
           <Reveal>
             <Link
-              className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-ivory/12 bg-teal-950/40 transition-colors duration-500 hover:border-gold/35"
+              className="depth-card depth-card-dark group relative flex h-full flex-col overflow-hidden rounded-3xl border border-ivory/12 bg-teal-950/40 hover:border-gold/35"
               to={`/activities/${featured.slug}`}
             >
               <div className="relative h-64 overflow-hidden sm:h-72">

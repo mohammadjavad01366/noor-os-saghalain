@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Icon } from "@/components/ui/Icon";
 import { StarGlyph } from "@/components/ui/Ornament";
+import { Parallax } from "@/components/ui/Parallax";
 
 type PageHeroProps = {
   eyebrow: string;
@@ -12,18 +13,22 @@ type PageHeroProps = {
 export function PageHero({ eyebrow, title, description, breadcrumb }: PageHeroProps) {
   return (
     <section className="relative isolate overflow-hidden bg-teal-950 pb-16 pt-32 sm:pb-20 lg:pt-40">
-      <img
-        alt=""
-        aria-hidden="true"
-        className="absolute inset-0 -z-10 h-full w-full object-cover object-[50%_42%] opacity-30"
-        src="/images/hero-architecture.jpg"
-      />
-      <div className="absolute inset-0 -z-10 bg-gradient-to-t from-teal-950 via-teal-950/85 to-teal-950/70" />
-      <div aria-hidden="true" className="pattern-star absolute inset-0 -z-10 opacity-[0.08]" />
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-l from-transparent via-gold/40 to-transparent"
-      />
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        <Parallax className="absolute -inset-y-[12%] inset-x-0" limit={52} speed={0.09}>
+          <img
+            alt=""
+            aria-hidden="true"
+            className="h-full w-full object-cover object-[50%_42%] opacity-35"
+            src="/images/hero-architecture.jpg"
+          />
+        </Parallax>
+        <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/85 to-teal-950/65" />
+        <div aria-hidden="true" className="pattern-star absolute inset-0 opacity-[0.08]" />
+        <div
+          aria-hidden="true"
+          className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-l from-transparent via-gold/40 to-transparent"
+        />
+      </div>
 
       <div className="relative shell">
         <nav aria-label="مسیر صفحه" className="flex items-center gap-2 text-[11px] text-ivory/45">

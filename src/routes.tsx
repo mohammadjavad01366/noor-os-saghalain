@@ -4,6 +4,7 @@ import { type RouteObject } from "react-router-dom";
 const SiteLayout = lazy(() => import("@/components/layout/SiteLayout"));
 const Index = lazy(() => import("@/pages/index"));
 const About = lazy(() => import("@/pages/about"));
+const Goals = lazy(() => import("@/pages/goals"));
 const Quran = lazy(() => import("@/pages/quran"));
 const Education = lazy(() => import("@/pages/education"));
 const Activities = lazy(() => import("@/pages/activities"));
@@ -23,6 +24,7 @@ export const routes: Array<RouteObject> = [
     children: [
       { index: true, element: page(<Index />) },
       { path: "about", element: page(<About />) },
+      { path: "goals", element: page(<Goals />) },
       { path: "quran", element: page(<Quran />) },
       { path: "education", element: page(<Education />) },
       { path: "activities", element: page(<Activities />) },
