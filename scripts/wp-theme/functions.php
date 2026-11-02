@@ -85,6 +85,13 @@ function noor_theme_print_module() {
 		return;
 	}
 
+	// The bundle resolves images/video through this value, so they work whether
+	// WordPress is installed at the domain root or in a subdirectory.
+	printf(
+		'<script>window.__NOOR_ASSET_BASE__ = %s;</script>',
+		wp_json_encode( $base ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	);
+
 	printf(
 		'<script type="module" crossorigin src="%s"></script>',
 		esc_url( $base . $entry['file'] )

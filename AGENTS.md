@@ -78,11 +78,20 @@ docker compose -f docker-compose.base44.yml up -d --build
   `export/noor-al-thaqalain-theme/`; `bash scripts/export-zip.sh` zips them. The `.zip` files are the
   shipped artifacts and are committed; the unpacked folders are gitignored.
 - Two builds run, and they differ on purpose: the static one uses `--base=/` with browser URLs plus
-  an `.htaccess` SPA fallback; the theme one uses `--base=/wp-content/themes/noor-al-thaqalain/assets/`
-  and `VITE_ROUTER_MODE=hash`, because WordPress owns server routing and cannot install rewrites.
-- Vite only rewrites the URLs it emits. Public-dir references in the app (`/images`, `/videos`,
-  `/fonts`) are rewritten to the theme base by the build script — if you add a new public asset
-  folder, extend the regex there or it will 404 inside the theme.
+  an `.htaccess` SPA fallback; the theme one uses `--base=./` and `VITE_ROUTER_MODE=hash`, because
+  WordPress owns server routing and cannot install rewrites. The relative base keeps the theme's
+  CSS font URLs and chunk imports inside the theme folder, so the same package works with WordPress
+  at the domain root *and* in a subdirectory (`example.com/blog/`).
+- Every `public/` reference (`/images`, `/videos`, `/fonts`) goes through `asset()` from
+  `src/lib/asset.ts`, never a bare `"/images/…"` string. The theme resolves those from
+  `window.__NOOR_ASSET_BASE__`, printed by `functions.php` with the real theme URI; a bare string
+  would 404 on a subdirectory install, and Vite only rewrites the URLs it owns.
+- `scripts/deploy-README.md` is the deployment guide; the build script copies it to the export root
+  and into both packages as `README.md`. Keep the upload steps and the client-side limitations
+  (admin panel, contact form) documented there, not in three places.
+- The theme's `assets/` holds Vite's whole output: hashed JS/CSS in `assets/assets/`, the manifest
+  in `assets/.vite/`, and the public folders (`fonts/`, `images/`, `videos/`) alongside. Keep that
+  layout — it is what makes the relative `url(../fonts/…)` in the built CSS resolve.
 - The theme's `functions.php` reads `assets/.vite/manifest.json` (so the build MUST keep
   `--manifest`) and prints the entry as `<script type="module">` in the footer. PHP files are linted
   with `php -l` in a `php:8.2-cli` container.

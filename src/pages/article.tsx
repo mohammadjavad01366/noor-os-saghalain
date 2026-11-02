@@ -6,6 +6,7 @@ import { actionClass } from "@/components/ui/buttonStyles";
 import { Icon } from "@/components/ui/Icon";
 import { OrnamentDivider, StarGlyph } from "@/components/ui/Ornament";
 import { Reveal } from "@/components/ui/Reveal";
+import { asset } from "@/lib/asset";
 
 export default function ArticlePage() {
   const { slug } = useParams();
@@ -38,7 +39,7 @@ export default function ArticlePage() {
           alt=""
           aria-hidden="true"
           className="absolute inset-0 -z-10 h-full w-full object-cover object-[50%_40%] opacity-25"
-          src="/images/hero-architecture.jpg"
+          src={asset("/images/hero-architecture.jpg")}
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-teal-950 via-teal-950/88 to-teal-950/75" />
 

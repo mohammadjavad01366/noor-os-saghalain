@@ -15,7 +15,6 @@
 import { execSync } from "node:child_process";
 import {
   cpSync,
-  existsSync,
   mkdirSync,
   readFileSync,
   readdirSync,
@@ -28,7 +27,6 @@ import path from "node:path";
 const root = process.cwd();
 const exportDir = path.join(root, "export");
 const themeSlug = "noor-al-thaqalain";
-const themeBase = `/wp-content/themes/${themeSlug}/assets/`;
 
 const staticDir = path.join(exportDir, "noor-al-thaqalain-static");
 const themeDir = path.join(exportDir, "noor-al-thaqalain-theme", themeSlug);
@@ -49,7 +47,9 @@ rmSync(exportDir, { recursive: true, force: true });
 mkdirSync(staticDir, { recursive: true });
 
 run("pnpm exec vite build --base=/ --outDir dist-static --emptyOutDir --logLevel warn");
-run(`pnpm exec vite build --base=${themeBase} --outDir dist-theme --emptyOutDir --manifest --logLevel warn`, {
+// Relative base: WordPress may live at the domain root or in a subdirectory,
+// and the built URLs must not depend on which.
+run("pnpm exec vite build --base=./ --outDir dist-theme --emptyOutDir --manifest --logLevel warn", {
   // Hash URLs: WordPress itself owns the server routes, so the app must not
   // rely on deep-link rewrites it cannot install.
   VITE_ROUTER_MODE: "hash",
@@ -64,29 +64,20 @@ cpSync(path.join(staticDir, "index.html"), path.join(staticDir, "404.html"));
 
 // --------------------------------------------------------------- WP theme ---
 const themeAssets = path.join(themeDir, "assets");
-mkdirSync(themeDir, { recursive: true });
+mkdirSync(themeAssets, { recursive: true });
 for (const file of ["style.css", "functions.php", "index.php", "header.php", "footer.php", "readme.txt"]) {
   cpSync(path.join(root, "scripts/wp-theme", file), path.join(themeDir, file));
 }
+
+// The whole Vite output (hashed JS/CSS in ./assets, plus the public folders
+// fonts/, images/, videos/) becomes <theme>/assets. Because the build uses a
+// relative base, its `url(../fonts/…)` and chunk imports resolve inside the
+// theme no matter which directory WordPress is installed in — no rewriting of
+// built files is needed.
 cpSync(path.join(root, "dist-theme"), themeAssets, { recursive: true });
 
-// Vite only rewrites the URLs it owns. The app also references files that live
-// in public/ (fonts, the hero clip, the reference photograph); inside a
-// WordPress theme those must resolve under the theme's assets directory.
-const themePrefix = themeBase.replace(/\/$/, "");
-const escape = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-const publicRef = new RegExp(`(?<!${escape(themePrefix)})/(images|videos|fonts)/`, "g");
-
-let rewritten = 0;
-for (const file of walk(themeAssets)) {
-  if (!/\.(js|css|html)$/.test(file)) continue;
-  const before = readFileSync(file, "utf8");
-  const after = before.replace(publicRef, `${themeBase}$1/`);
-  if (after !== before) {
-    writeFileSync(file, after);
-    rewritten += 1;
-  }
-}
+const manifestPath = path.join(themeAssets, ".vite/manifest.json");
+const themeManifest = JSON.parse(readFileSync(manifestPath, "utf8"));
 
 // --------------------------------------------------------------- notices ----
 writeFileSync(
@@ -145,12 +136,19 @@ root as well as in a subdirectory where WordPress lives.
   "utf8",
 );
 
+// Deployment guide ships with both packages and at the export root.
+const deployReadme = path.join(root, "scripts/deploy-README.md");
+for (const target of [
+  path.join(exportDir, "README.md"),
+  path.join(staticDir, "README.md"),
+  path.join(exportDir, "noor-al-thaqalain-theme", "README.md"),
+  path.join(themeDir, "README.md"),
+]) {
+  cpSync(deployReadme, target);
+}
+
 // ---------------------------------------------------------------- verify ----
-const manifestPath = path.join(themeAssets, ".vite/manifest.json");
-const manifest = existsSync(manifestPath)
-  ? JSON.parse(readFileSync(manifestPath, "utf8"))
-  : {};
-const entry = manifest["index.html"];
+const entry = themeManifest["index.html"];
 
 const files = walk(staticDir).length;
 const size = walk(staticDir).reduce((total, file) => total + statSync(file).size, 0);
@@ -161,7 +159,7 @@ process.stdout.write(
     "Export complete:",
     `  static  → export/noor-al-thaqalain-static (${files} files, ${(size / 1024 / 1024).toFixed(2)} MB)`,
     `  theme   → export/noor-al-thaqalain-theme/${themeSlug} (${entry?.file ?? "MISSING ENTRY"})`,
-    `  public asset URLs rewritten in ${rewritten} built file(s)`,
+    "  both packages carry README.md (deployment guide)",
     "",
   ].join("\n"),
 );

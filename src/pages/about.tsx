@@ -7,6 +7,7 @@ import { actionClass } from "@/components/ui/buttonStyles";
 import { Icon } from "@/components/ui/Icon";
 import { CornerFrame, OrnamentDivider, StarGlyph } from "@/components/ui/Ornament";
 import { Reveal } from "@/components/ui/Reveal";
+import { asset } from "@/lib/asset";
 
 export default function AboutPage() {
   const { content } = useContent();
@@ -70,7 +71,7 @@ export default function AboutPage() {
                       alt="معماری ایرانی-اسلامی با کاشی‌کاری فیروزه‌ای"
                       className="h-full w-full object-cover object-[50%_40%]"
                       loading="lazy"
-                      src="/images/hero-architecture.jpg"
+                      src={asset("/images/hero-architecture.jpg")}
                     />
                   </div>
                 </div>

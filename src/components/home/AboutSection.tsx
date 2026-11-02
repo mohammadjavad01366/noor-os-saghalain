@@ -6,6 +6,7 @@ import { CornerFrame, StarGlyph } from "@/components/ui/Ornament";
 import { Parallax } from "@/components/ui/Parallax";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { asset } from "@/lib/asset";
 
 export function AboutSection() {
   const { content } = useContent();
@@ -81,7 +82,7 @@ export function AboutSection() {
                         alt="نمای رواق‌های کاشی‌کاری‌شده مجموعه"
                         className="h-full w-full object-cover object-[50%_42%]"
                         loading="lazy"
-                        src="/images/hero-architecture.jpg"
+                        src={asset("/images/hero-architecture.jpg")}
                       />
                       <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-teal-950/70 via-transparent to-transparent" />
                     </div>

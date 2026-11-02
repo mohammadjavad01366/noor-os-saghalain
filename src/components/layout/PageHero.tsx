@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Icon } from "@/components/ui/Icon";
 import { StarGlyph } from "@/components/ui/Ornament";
 import { Parallax } from "@/components/ui/Parallax";
+import { asset } from "@/lib/asset";
 
 type PageHeroProps = {
   eyebrow: string;
@@ -19,7 +20,7 @@ export function PageHero({ eyebrow, title, description, breadcrumb }: PageHeroPr
             alt=""
             aria-hidden="true"
             className="h-full w-full object-cover object-[50%_42%] opacity-35"
-            src="/images/hero-architecture.jpg"
+            src={asset("/images/hero-architecture.jpg")}
           />
         </Parallax>
         <div className="absolute inset-0 bg-gradient-to-t from-teal-950 via-teal-950/85 to-teal-950/65" />

@@ -1,5 +1,6 @@
 import { useId } from "react";
 import type { ArtVariant, Visual } from "@/content/types";
+import { asset } from "@/lib/asset";
 
 const palettes: Record<ArtVariant, { top: string; bottom: string; line: string; accent: string }> = {
   arch: { top: "#075159", bottom: "#04292e", line: "#c59a5a", accent: "#e2c79b" },
@@ -218,7 +219,7 @@ export function ArtPlate({ visual, className = "", alt = "", photoPosition }: Ar
           alt={alt}
           className="h-full w-full object-cover"
           loading="lazy"
-          src="/images/hero-architecture.jpg"
+          src={asset("/images/hero-architecture.jpg")}
           style={{ objectPosition: photoPosition ?? "center 38%" }}
         />
       </div>

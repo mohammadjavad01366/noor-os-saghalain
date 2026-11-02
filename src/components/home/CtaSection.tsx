@@ -5,6 +5,7 @@ import { Icon } from "@/components/ui/Icon";
 import { OrnamentDivider } from "@/components/ui/Ornament";
 import { Parallax } from "@/components/ui/Parallax";
 import { Reveal } from "@/components/ui/Reveal";
+import { asset } from "@/lib/asset";
 
 export function CtaSection() {
   const { content } = useContent();
@@ -18,7 +19,7 @@ export function CtaSection() {
             aria-hidden="true"
             className="h-full w-full object-cover object-[50%_45%]"
             loading="lazy"
-            src="/images/hero-architecture.jpg"
+            src={asset("/images/hero-architecture.jpg")}
           />
         </Parallax>
       </div>

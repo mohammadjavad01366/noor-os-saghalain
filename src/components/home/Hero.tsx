@@ -5,9 +5,10 @@ import { actionClass } from "@/components/ui/buttonStyles";
 import { Icon } from "@/components/ui/Icon";
 import { StarGlyph } from "@/components/ui/Ornament";
 import { useScrollScrubVideo } from "@/hooks/useScrollScrubVideo";
+import { asset } from "@/lib/asset";
 
-const VIDEO_SRC = "/videos/hero-scrub.mp4";
-const FALLBACK_SRC = "/images/hero-architecture.jpg";
+const VIDEO_SRC = asset("/videos/hero-scrub.mp4");
+const FALLBACK_SRC = asset("/images/hero-architecture.jpg");
 
 /** The hero track: the sticky viewport holds still for this much scroll. */
 const TRACK_HEIGHT = "320vh";
