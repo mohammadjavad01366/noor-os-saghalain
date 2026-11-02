@@ -32,6 +32,23 @@ docker compose -f docker-compose.base44.yml up -d --build
 - **`tsconfig.json`**: `esModuleInterop: false` was removed — TypeScript 7 rejects that option, which
   made `pnpm check-types` fail before any source was compiled.
 
+## Home hero: scroll-scrubbed video
+
+- The hero media is `public/videos/hero-scrub.mp4`, driven by
+  `src/hooks/useScrollScrubVideo.ts` + `src/components/home/Hero.tsx`. The video is never played
+  (`play()`/autoplay/loop are absent): the user's scroll sets `video.currentTime`, so the clip must
+  stay in sync with the scroll track (`320vh` section, `100svh` sticky viewport).
+- **Do not replace that file with a normal export.** The supplied source (4s, 24fps) had a single
+  keyframe for the whole clip, which cannot be scrubbed. The committed encode is H.264 all-intra
+  (`-g 1`), no audio, `+faststart`, ~2.2MB. Re-encode any replacement the same way, e.g.:
+  `ffmpeg -i in.mp4 -an -c:v libx264 -preset slow -crf 24 -pix_fmt yuv420p -g 1 -sc_threshold 0 -movflags +faststart out.mp4`
+- Scroll progress is published as the CSS variable `--hero-p` on the hero `<section>`; the headline
+  fade/parallax is pure CSS against it, so scrolling causes no React re-render. Keep it that way.
+- The hero photograph stays underneath the video as pre-roll/poster and as the failure fallback;
+  `prefers-reduced-motion` skips the clip entirely and renders that photograph at `100svh`.
+- The source clip is 496x864, so a wide desktop viewport upscales it when it covers the screen. Ask
+  for a 1080x1920 (or similar) export before expecting crisp desktop detail.
+
 ## Checks
 
 Run inside the container (the host has no Node toolchain):
